@@ -17,6 +17,25 @@ function getBook(req, res) {
   return res.json(book);
 }
 
+function updateBook(req, res) {
+  let bookId = Number(req.params.id) - 1;
+  const book = books[bookId];
+  const newTitle = req.body.title;
+  const newQuantity = req.body.quantity;
+
+  if (bookId > books.length || bookId < 1) {
+    return res.status(400).json({
+      error: "Book doesn't exist!"
+    })
+  }
+
+  book.title = newTitle;
+  book.quantity = newQuantity;
+
+  return res.status(206).json(book);
+
+}
+
 function addBook(req, res) {
   const data = req.body;
 
@@ -34,4 +53,4 @@ function addBook(req, res) {
 
 }
 
-export { getAllBooks, getBook, addBook };
+export { getAllBooks, getBook, updateBook, addBook };
