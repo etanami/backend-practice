@@ -1,12 +1,11 @@
 import express from "express";
 
+import booksRouter from "./routes/books.route.js";
+
 const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("It's working...")
-})
-
+app.use("/books", booksRouter);
 
 export default app;
