@@ -25,24 +25,23 @@ function updateBook(req, res) {
 
   if (bookId > books.length || bookId < 1) {
     return res.status(400).json({
-      error: "Book doesn't exist!"
-    })
+      error: "Book doesn't exist!",
+    });
   }
 
   book.title = newTitle;
   book.quantity = newQuantity;
 
   return res.status(206).json(book);
-
 }
 
 function addBook(req, res) {
   const data = req.body;
 
-  if(!data.title || !data.quantity) {
+  if (!data.title || !data.quantity) {
     return res.status(400).json({
-      error: "Missing field!"
-    })
+      error: "Missing field!",
+    });
   }
 
   let bookId = books.length + 1;
@@ -50,7 +49,23 @@ function addBook(req, res) {
 
   books.push(data);
   return res.status(201).json(data);
-
 }
 
-export { getAllBooks, getBook, updateBook, addBook };
+function deleteBook(req, res) {
+  const bookId = Number(req.params.id);
+  const bookIndex = books.findIndex((book) => book.id === bookId);
+
+  if (bookIndex !== -1) {
+    books.splice(bookIndex, 1);
+
+    return res.status(200).json({
+      message: "Book has been deleted!",
+    });
+  } else {
+    return res.status(404).json({
+      error: "Book doesn't exist!",
+    });
+  }
+}
+
+export { getAllBooks, getBook, updateBook, addBook, deleteBook };
