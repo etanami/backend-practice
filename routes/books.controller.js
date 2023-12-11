@@ -10,11 +10,28 @@ function getBook(req, res) {
 
   if (bookId > books.length || bookId < 1) {
     res.status(400).json({
-      error: "Book does not exist!"
-    })
+      error: "Book does not exist!",
+    });
   }
 
   return res.json(book);
 }
 
-export { getAllBooks, getBook };
+function addBook(req, res) {
+  const data = req.body;
+
+  if(!data.title || !data.quantity) {
+    return res.status(400).json({
+      error: "Missing field!"
+    })
+  }
+
+  let bookId = books.length + 1;
+  data.id = bookId;
+
+  books.push(data);
+  return res.status(201).json(data);
+
+}
+
+export { getAllBooks, getBook, addBook };
